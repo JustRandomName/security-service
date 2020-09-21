@@ -3,15 +3,20 @@ server:
 spring:
   application:
     name: security
+  database:
+    driverClassName: com.mysql.cj.jdbc.Driver
   datasource:
-    url: jdbc:mysql://127.0.0.1:3308/bench?useSSL=false&serverTimezone=UTC
-    username: root
     password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://127.0.0.1:3308/bench?useSSL=false&serverTimezone=UTC
   jpa:
-    database: MYSQL
-    properties.jadira.usertype.autoRegisterUserTypes: true
-    properties.org.hibernate.envers.store_data_at_delete: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: true
+    show-sql: true
 eureka:
   client:
     serviceUrl:

@@ -66,9 +66,7 @@
         <dependency>
             <groupId>models</groupId>
             <artifactId>models</artifactId>
-            <version>0.1</version>
-            <scope>system</scope>
-            <systemPath>/home/ITRANSITION.CORP/n.zhuchkevich/.m2/repository/models/models/0.1/models-0.1.jar</systemPath>
+            <version>0.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
