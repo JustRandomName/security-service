@@ -1,0 +1,10 @@
+/home/ITRANSITION.CORP/n.zhuchkevich/dev/bench_itra/security-service/src/main/java/security/config/JwtRequestFilter.java
+/home/ITRANSITION.CORP/n.zhuchkevich/dev/bench_itra/security-service/src/main/java/security/controller/AuthController.java
+/home/ITRANSITION.CORP/n.zhuchkevich/dev/bench_itra/security-service/src/main/java/security/service/UserDetailsServiceImpl.java
+/home/ITRANSITION.CORP/n.zhuchkevich/dev/bench_itra/security-service/src/main/java/security/SecurityService.java
+/home/ITRANSITION.CORP/n.zhuchkevich/dev/bench_itra/security-service/src/main/java/security/repository/UserRepository.java
+/home/ITRANSITION.CORP/n.zhuchkevich/dev/bench_itra/security-service/src/main/java/security/config/WebSecurityConfig.java
+/home/ITRANSITION.CORP/n.zhuchkevich/dev/bench_itra/security-service/src/main/java/security/util/JwtTokenUtil.java
+/home/ITRANSITION.CORP/n.zhuchkevich/dev/bench_itra/security-service/src/main/java/security/constants/JWTConstants.java
+/home/ITRANSITION.CORP/n.zhuchkevich/dev/bench_itra/security-service/src/main/java/security/config/DefaultAuthenticationEntryPoint.java
+/home/ITRANSITION.CORP/n.zhuchkevich/dev/bench_itra/security-service/src/main/java/security/util/UserUtil.java

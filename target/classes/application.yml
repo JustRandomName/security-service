@@ -1,0 +1,20 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: security
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3308/bench?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: MYSQL
+    properties.jadira.usertype.autoRegisterUserTypes: true
+    properties.org.hibernate.envers.store_data_at_delete: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
