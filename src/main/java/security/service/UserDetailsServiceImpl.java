@@ -1,9 +1,13 @@
 package security.service;
 
+import static java.lang.String.valueOf;
 import static java.util.Collections.singleton;
+import static java.util.UUID.fromString;
+import static model.enums.UserRoles.ROLE_USER;
+import static model.utils.UserUtil.fromDtoToEntity;
 import static security.constants.JWTConstants.TOKEN_PREFIX;
-import static security.util.UserUtil.fromDtoToEntity;
 
+import model.dto.AuthDto;
 import model.dto.UserDto;
 import model.entity.Role;
 import model.entity.User;
@@ -30,7 +34,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private static final String USER_DISABLED = "USER_DISABLED";
     private static final String INVALID_CREDENTIALS = "INVALID_CREDENTIALS";
-    private static final String ROLE_USER = "ROLE_USER";
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -44,22 +47,28 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public User loadUserByUsername(final String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);
     }
 
-    public String authenticate(final UserDto dto) throws Exception {
-        User user = loadUserByUsername(dto.getUsername());
+    public AuthDto authenticate(final UserDto dto) throws Exception {
+        final User user = loadUserByUsername(dto.getUsername());
         authenticate(dto.getUsername(), dto.getPassword(), user);
-        return jwtTokenUtil.generateToken(user);
+        return new AuthDto(jwtTokenUtil.generateToken(user), user.getUsername(), valueOf(user.getId()),
+                user.getRoles().stream().anyMatch(role -> role.getName().equals("ROLE_ADMIN")));
     }
 
-    public User saveUser(final UserDto dto) {
+    public User register(final UserDto dto) {
         dto.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         final User user = fromDtoToEntity(dto);
-        user.setRoles(singleton(new Role(ROLE_USER)));
-        return userRepository.save(user);
+        user.setRoles(singleton(new Role(ROLE_USER.value)));
+        userRepository.save(user);
+        emailService.sendEmail(user.getUsername(), valueOf(user.getId()));
+        return user;
     }
 
     public boolean isTokenValid(final String token) {
@@ -72,6 +81,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public List getRolesFromToken(final String token) {
         return jwtTokenUtil.getRolesFromToken(token.replace(TOKEN_PREFIX, ""));
+    }
+
+    public void confirm(final String userId) {
+        userRepository.findById(fromString(userId)).ifPresent(this::activateUser);
+    }
+
+    private void activateUser(final User user) {
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 
     private void authenticate(final String username, final String password, User user) throws Exception {
